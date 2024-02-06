@@ -1,0 +1,22 @@
+steps:
+  - id: 'Build Docker Image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/python:$TAG_NAME', '.']
+    env:
+      - 'TAG_NAME=$TAG_NAME'
+      - 'PROJECT_ID=$PROJECT_ID'
+
+  - id: 'Push to Container Registry'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/python:$TAG_NAME']
+    env:
+      - 'TAG_NAME=$TAG_NAME'
+      - 'PROJECT_ID=$PROJECT_ID'
+
+
+substitutions:
+  TAG_NAME: '0.0.1'
+
+options:
+  substitution_option: 'ALLOW_LOOSE'
+  dynamic_substitutions: true
